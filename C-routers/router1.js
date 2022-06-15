@@ -28,6 +28,7 @@ router.post('/', jsonParser, async (req, res) => {
   // execute query insert data 
   // just only post once
   const users = await UserModel.create(data);
+  res.status(201);
   res.json(users);
 });
 
