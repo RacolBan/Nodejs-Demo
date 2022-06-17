@@ -1,61 +1,129 @@
 const express = require('express');
-const router = express.Router();
-const bodyParser = require('body-parser');
-const { UserModel, sequelize } = require('../model/model')
+const router= express.Router();
+const {UserModel, sequelize} = require('../models/user-model');
 
+// get middleawre for jsonparser // used to use bodyparser but now not;
+const jsonParser= express.json();
 
-
-// create application/json parser
-const jsonParser = bodyParser.json();
-
-// api get users
-// router.get('/', jsonParser, async (req, res) =>{
-
-// //   // authenticate de test connect
-// //  await sequelize.authenticate();
-// //  console.log("asdccccc")
-//   const users = await UserModel.findAll();
-//   console.log(users)
-//   res.json(users);
+// get connection server
+// router.get('/', jsonParser, async (req,res)=>{
+//     await sequelize.authenticate();
+//     console.log('connect successfully!')
 // });
 
-// api create users
-router.post('/', jsonParser, async (req, res) => {
 
-  //get data from FE
-  const data = req.body;
-  console.log(data)
-  // execute query insert data 
-  // just only post once
-  const users = await UserModel.create(data);
-  res.status(201);
-  res.json(users);
-});
+// API post users from FE
+// router.post ('/', jsonParser, async (req,res) => {
 
-// router.put('/', jsonParser, async (req, res)=>{
+//     //get data from FE
+//     const data = req.body;
+//     console.log(data);
+    
+//     // post users into database
+//     const users = await UserModel.create(data);
 
-//   //update data from BE
-//   const updateRow = await UserModel.update(
-//     {firstname: "phuc"},
-//     {
-//       where: {
-//         firstname: "khai"
-//       }
+//     res.status(201);
+//     res.json(users);
+
+// });
+
+
+// APi get the whole table
+    // router.get('/', jsonParser, async (req,res)=> {
+
+    //     try {
+    //         const found = await UserModel.findAll();
+    //         if(found){
+    //             res.status(200);
+    //             res.json(found)
+    //         }else{
+    //             res.status(404);
+    //             res.json({message: "Not Found"})
+    //         }
+
+    //     } catch (error) {
+    //         res.status(500);
+    //         res.json({message: "Not Found"});
+    //     }
+
+    // });
+
+// API get a specified user
+    // router.get("/:id", jsonParser, async (req,res)=>{
+    //     const { id } = req.params;
+    //     try {
+    //         const found = await UserModel.findOne({
+    //             where:{
+    //                 id,
+    //             }
+    //         });
+    //          console.log(found);
+    //         if(found){
+    //             res.status(200);
+    //             res.json(found);
+    //         }else{
+    //             res.status(404);
+    //             res.json( {message: "Not Found"} );
+    //         }
+    //     }
+    //      catch (error) {
+    //         res.status(500);
+    //         res.json({message: "Not Found"});
+    //     }
+    // });
+
+// APi put to update existed users
+    router.put('/:id', jsonParser, async (req,res)=>{
+        // get user need to update
+        const {id: userID} = req.params;
+
+        // get updated data from FE
+        const {firstname, lastname} = req.body;
+        try {
+            //check whether user's id has existed in table?
+            const found = await UserModel.findByPk(id)
+            // if existed
+            if(found){
+                await UserModel.update(
+                    {
+                  firstname, 
+                   lastname,
+                },
+                {
+                    where:{
+                        id: userID,
+                    }
+                }
+                )
+                // update succesfully! 
+                res.status(200).json({message : "update succesfully! "})
+            }else{
+                res.status(404).json({message : "Not Found"})
+            }
+        } catch (error) {
+            res.status(500).json({message : "Not Found"})
+        }
+})
+
+// API Delete to remove a existed user based on id
+
+// router.delete('/:id', jsonParser, async (req,res)=>{
+//     let { id } = req.params;
+
+//     try {
+//         // id is unique, find user with its id
+//         const findUser = await UserModel.findByPk(id);
+        
+//         // if found
+//         if(findUser){
+//             await UserModel.destroy();
+//             //no content send for this request    
+//             res.status(204).send();
+//         }else{
+//             res.status(404).json({message: "Not Found"});
+//         }
+//     } catch (error) {
+//         res.status(500).json({message: "Not Found"});
 //     }
-//   )
-//   if(updateRow){
-//     console.log(`Updated row ${updateRow}`);
-//     res.json(updateRow);
-//   } else{
-//     console.log("Model not found");
-//   }
 // })
-
-// router.delete('/', jsonParser, async(req,res)=>{
-//   //delete row table
-//   const deleteRow = await UserModel.delete(
-//     {where: {lastname: "nguyen"}}
-//   )
-// });
-
 module.exports = router;
