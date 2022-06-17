@@ -13,9 +13,7 @@ const jsonParser= bodyparser.json();
 
 
 // API post users from FE
-// if pass middleware jsonparser , api will catch 500
-// if not pass, we are unable to get data from body request
-router.post ('/',  async (req,res) => {
+router.post ('/', jsonParser, async (req,res) => {
     try {
     
         //get data from FE
@@ -24,18 +22,15 @@ router.post ('/',  async (req,res) => {
         
         if(data){
             const users = await UserModel.create(data);
-    
             res.status(200);
             res.json(users);
         }else{
             res.status(404).json({message: "Not Found"})
         }
-        
-       
     }
     catch (error) {
-    res.status(422).json({message: "Not Found"});
-}
+        res.status(422).json({message: "Not Found"});
+    }
 });
 
 
