@@ -1,9 +1,9 @@
 const express = require('express');
 const router= express.Router();
 const {UserModel, sequelize} = require('../models/user-model');
-
+const bodyparser = require('body-parser');
 // get middleawre for jsonparser // used to use bodyparser but now not;
-const jsonParser= express.json();
+const jsonParser= bodyparser.json();
 
 // get connection server
 // router.get('/', jsonParser, async (req,res)=>{
@@ -13,19 +13,32 @@ const jsonParser= express.json();
 
 
 // API post users from FE
-// router.post ('/', jsonParser, async (req,res) => {
-
-//     //get data from FE
-//     const data = req.body;
-//     console.log(data);
+// if pass middleware jsonparser , api will catch 500
+// if not pass, we are unable to get data from body request
+router.post ('/',  async (req,res) => {
+    try {
     
-//     // post users into database
-//     const users = await UserModel.create(data);
+        //get data from FE
+        const data = req.body;
+        console.log(data);
+        
+        if(data){
+            const users = await UserModel.create(data);
+    
+            res.status(200);
+            res.json(users);
+        }else{
+            res.status(404).json({message: "Not Found"})
+        }
+        
+       
+    }
+    catch (error) {
+    res.status(422).json({message: "Not Found"});
+}
+});
 
-//     res.status(201);
-//     res.json(users);
 
-// });
 
 
 // APi get the whole table
@@ -73,37 +86,37 @@ const jsonParser= express.json();
     // });
 
 // APi put to update existed users
-    router.put('/:id', jsonParser, async (req,res)=>{
-        // get user need to update
-        const {id: userID} = req.params;
+//     router.put('/:id', jsonParser, async (req,res)=>{
+//         // get user need to update
+//         const {id: userID} = req.params;
 
-        // get updated data from FE
-        const {firstname, lastname} = req.body;
-        try {
-            //check whether user's id has existed in table?
-            const found = await UserModel.findByPk(id)
-            // if existed
-            if(found){
-                await UserModel.update(
-                    {
-                  firstname, 
-                   lastname,
-                },
-                {
-                    where:{
-                        id: userID,
-                    }
-                }
-                )
-                // update succesfully! 
-                res.status(200).json({message : "update succesfully! "})
-            }else{
-                res.status(404).json({message : "Not Found"})
-            }
-        } catch (error) {
-            res.status(500).json({message : "Not Found"})
-        }
-})
+//         // get updated data from FE
+//         const {firstname, lastname} = req.body;
+//         try {
+//             //check whether user's id has existed in table?
+//             const found = await UserModel.findByPk(id)
+//             // if existed
+//             if(found){
+//                 await UserModel.update(
+//                     {
+//                   firstname, 
+//                    lastname,
+//                 },
+//                 {
+//                     where:{
+//                         id: userID,
+//                     }
+//                 }
+//                 )
+//                 // update succesfully! 
+//                 res.status(200).json({message : "update succesfully! "})
+//             }else{
+//                 res.status(404).json({message : "Not Found"})
+//             }
+//         } catch (error) {
+//             res.status(500).json({message : "Not Found"})
+//         }
+// })
 
 // API Delete to remove a existed user based on id
 

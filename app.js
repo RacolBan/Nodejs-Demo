@@ -1,15 +1,12 @@
 const express = require('express');
 const app = express();
-const router = require('./C-routers/router1')
+const router = require('./C-routers/router1');
+const port = 3356;
 
-const port = 3000;
-app.use ('/users', router);
+// get router
+app.use('/', router)
 
-app.listen(port, ()=>{
-  console.log('server running on http://localhost:3000');
+// listen server
+app.listen(port, () => {
+    console.log(`server running on http://localhost:${port}...`);
 })
-
-
-
-
- 

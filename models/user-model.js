@@ -1,5 +1,5 @@
 const config = require('../Db-config/db.config');
-const {Sequelize, Datatype, DataTypes} = require('sequelize');
+const {Sequelize, DataTypes} = require('sequelize');
 
 
 //create install sequelize
