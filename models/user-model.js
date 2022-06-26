@@ -16,10 +16,10 @@ const UserModel = connection.define("user",
         //     type: DataTypes.STRING,
         //     allowNull: false
         // },
-        // iam_role: {
-        //     type: DataTypes.STRING,
-        //     allowNull: false
-        // },
+        iam_role: {
+            type: DataTypes.SMALLINT,
+            allowNull: false
+        },
         username: {
             type: DataTypes.STRING,
             allowNull: false,

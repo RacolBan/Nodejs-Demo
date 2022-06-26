@@ -6,11 +6,11 @@ const token = jwt.sign({ username: "khai" }, privateKey, { algorithm:"HS512" })
 
 console.log(token)
 // sign() asynchronous // data=token
-jwt.sign({ username: "khai" }, privateKey, { algorithm:"HS512" }, (err, data) => {
-    console.log("data: " + err )
+jwt.verify(token, privateKey,  (err, data) => {
+    console.log("data: " + data.username )
 })
 
-
+console.log("aaa");
 
 
 const data = jwt.verify(token, privateKey)

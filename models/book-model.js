@@ -5,11 +5,11 @@ const BookModel = connection.define("book",
     {
         name:{
             type: DataTypes.STRING,
-            allowNull:false
+            allowNull:false,
         },
         author:{
             type: DataTypes.STRING,
-            defaultValue: "null"
+            allowNull:false
         }
 
     },
