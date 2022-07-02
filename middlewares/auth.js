@@ -1,14 +1,17 @@
 const { UserModel } = require("../models/focus.model")
 const md5 = require("md5");
 const jwt = require("jsonwebtoken");
+const { Op } = require('sequelize')
 
-const userNotExist = async (req, res, next) => {
-    const { username } = req.body;
-    console.log(username);
+const userAndEmailNotExist = async (req, res, next) => {
+    const { username, email } = req.body;
     try {
         const found = await UserModel.findOne({
             where: {
-                username,
+                [Op.or]: {
+                    username,
+                    email
+                }
             }
         })
         if (found) {
@@ -76,7 +79,7 @@ const verifyToken = async (req, res, next) => {
 }
 module.exports = {
     correctPass,
-    userNotExist,
+    userAndEmailNotExist,
     userExist,
     verifyToken
 }

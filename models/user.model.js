@@ -8,13 +8,9 @@ const UserModel = connection.define("user",
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                min: {
-                    args: [3],
-                    msg: " fullname is too short"
-                },
-                max: {
-                    args: [25],
-                    msg: " fullname is too long"
+                len: {
+                    args: [3, 25],
+                    msg: "invalid fullname"
                 }
             }
         },
@@ -23,19 +19,10 @@ const UserModel = connection.define("user",
             allowNull: false,
             unique: true,
             validate: {
-                is: {
-                    args: [/^[a-z]+$/i],
-                    msg: "invalid name"
-                },
-                min: {
-                    args: [3],
-                    msg: "your username is too short"
-                },
-                max: {
-                    args: [12],
-                    msg: "your username is too long"
-                },
-
+                len: {
+                    args: [3, 12],
+                    msg: "invalid fullname"
+                }
             }
         },
         hash_pwd: {
@@ -45,11 +32,7 @@ const UserModel = connection.define("user",
                 is: {
                     args: [/^[a-z0-9]+$/i],
                     msg: "invalid password"
-                },
-                min: {
-                    args: [3],
-                    msg: "your password is too short"
-                },
+                }
             }
         },
 
@@ -63,13 +46,15 @@ const UserModel = connection.define("user",
                 }
             }
         },
+
         role: {
-            type: DataTypes.SMALLINT,
+            type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: 2,
+            defaultValue: "member",
             validate: {
-                isNumeric: {
-                    msg: "just number"
+                isIn: {
+                    args: [['admin', 'moderate', 'member']],
+                    msg: "invalid role"
                 }
             }
         },

@@ -13,13 +13,9 @@ const CatModel = connection.define("categories",
                     args: [/^[a-z0-9]+$/i],
                     msg: "invalid name"
                 },
-                min: {
-                    args: [3],
-                    msg: "too short"
-                },
-                max: {
-                    args: [50],
-                    msg: "too long"
+                len: {
+                    args: [3, 50],
+                    msg: "invalid catName"
                 }
             }
         },

@@ -1,4 +1,4 @@
-const UserModel = require("../models/user.model")
+const { UserModel } = require("../models/focus.model")
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const md5 = require('md5');
@@ -6,9 +6,8 @@ const md5 = require('md5');
 const signUP = async (req, res) => {
     const { fullname, username, password, email, role } = req.body;
 
-
     try {
-        const encrypted = md5(password)
+        const encrypted = md5(password);
 
         const user = {
             fullname,

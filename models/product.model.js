@@ -9,17 +9,10 @@ const ProductModel = connection.define("products",
             allowNull: false,
             unique: true,
             validate: {
-                is: {
-                    args: [/^[a-z0-9]+$/i],
-                    msg: "invalid name"
-                },
-                min: {
-                    args: [3],
-                    msg: "too short"
-                },
-                max: {
-                    args: [100],
-                    msg: "too long"
+
+                len: {
+                    args: [3, 100],
+                    msg: "invalid productName"
                 }
             }
         },

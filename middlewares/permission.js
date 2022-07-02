@@ -1,11 +1,11 @@
-const UserM = require("../models/user.model");
+const { UserModel } = require("../models/focus.model");
 const permission = require("../config/permission");
 
 const isAdmin = async (req, res, next) => {
     const username = req.username;
     try {
 
-        const foundUser = await UserM.findOne({
+        const foundUser = await UserModel.findOne({
             where: {
                 username,
             }
@@ -28,7 +28,7 @@ const isMember = async (req, res, next) => {
     const username = req.username;
     try {
 
-        const foundUser = await UserM.findOne({
+        const foundUser = await UserModel.findOne({
             where: {
                 username,
             }
@@ -50,7 +50,7 @@ const isModerate = async (req, res, next) => {
     const username = req.username;
     try {
 
-        const foundUser = await UserM.findOne({
+        const foundUser = await UserModel.findOne({
             where: {
                 username,
             }

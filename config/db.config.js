@@ -1,6 +1,6 @@
 const config = {
     connection_uri: "mysql::memory:",
-    db: "productstore",
+    db: "store",
     username: "root",
     password: "Leokhai1@",
     host: "localhost",
